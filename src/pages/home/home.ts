@@ -11,4 +11,12 @@ export class HomePage {
 
   }
 
+  goToProfile(): void {
+    this.navCtrl.push(this.newMethod());
+  }
+
+
+  private newMethod() {
+    return "ProfilePage";
+  }
 }
