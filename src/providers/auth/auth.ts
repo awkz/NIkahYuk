@@ -39,4 +39,19 @@ export class AuthProvider {
       .off();
     return firebase.auth().signOut();
   }
+
+  getuserdetails() {
+    const userId: string = firebase.auth().currentUser.uid;
+    var promise = new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref(`/userProfile/${userId}`)
+        .once('value', (snapshot) => {
+      resolve(snapshot.val());
+    }).catch((err) => {
+      reject(err);
+      })
+    })
+    return promise;
+  }
 }

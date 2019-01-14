@@ -30,13 +30,11 @@ export class ProfilePage {
       inputs: [
         {
           name: "firstName",
-          placeholder: "Your first name",
-          value: this.userProfile.firstName
+          placeholder: "Your first name"
         },
         {
           name: "lastName",
-          placeholder: "Your last name",
-          value: this.userProfile.lastName
+          placeholder: "Your last name"
         }
       ],
       buttons: [
