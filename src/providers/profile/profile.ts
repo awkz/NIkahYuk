@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Events } from 'ionic-angular';
 import firebase, { User } from 'firebase/app';
-import 'firebase/database';
+// import 'firebase/database';
 
 /*
   Generated class for the ProfileProvider provider.
@@ -12,25 +13,28 @@ import 'firebase/database';
 export class ProfileProvider {
   public userProfile: firebase.database.Reference;
   public currentUser: User;
+  public cuserUID:any;
   profileProvider: any;
   birthDate: any;
   authProvider: any;
   navCtrl: any;
-  constructor() {
+  userDetails: any;
+  constructor(public events: Events) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.currentUser = user;
-        this.userProfile = firebase.database().ref(`/userProfile/${user.uid}`);
+        this.cuserUID = user.uid;
+        this.userProfile = firebase.database().ref(`/userProfile/${this.cuserUID}`);
       }
     });
   }
 
-  ionViewDidLoad() {
-    this.profileProvider.getUserProfile().on("value", userProfileSnapshot => {
-      this.userProfile = userProfileSnapshot.val();
-      this.birthDate = userProfileSnapshot.val().birthDate;
-    });
-  }
+  // getData() {
+  //   firebase.database().ref(`/userProfile/${this.cuserUID}`).on('value', userProfileSnapshot => {
+  //     this.userDetails = userProfileSnapshot.val();
+  //     return this.userDetails;
+  //   })
+  // }
 
   getUserProfile(): firebase.database.Reference {
     return this.userProfile;
@@ -76,6 +80,14 @@ export class ProfileProvider {
       .catch(error => {
         console.error(error);
       });
+  }
+
+  updateTelepon(telepon: string): Promise<any> {
+    return this.userProfile.update({ telepon });
+  }
+
+  updateAddress(address: string): Promise<any> {
+    return this.userProfile.update({ address });
   }
 
   

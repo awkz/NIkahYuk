@@ -9,6 +9,7 @@ import { CategoryProvider } from '../providers/category/category';
 
 
 import { HomePage } from '../pages/home/home';
+import { CartPage } from '../pages/cart/cart';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,7 +30,8 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage }
+      { title: 'Home', component: HomePage },
+      { title: 'Keranjang', component: CartPage },
     ];
 
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {

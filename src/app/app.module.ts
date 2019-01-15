@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -17,16 +16,16 @@ import { CategoryProvider } from '../providers/category/category';
 import { CartProvider } from '../providers/cart/cart';
 import { OrderProvider } from '../providers/order/order';
 
-
 import * as firebase from 'firebase';
 import { firebaseConfig } from './credentials';
+import { CartPage } from '../pages/cart/cart';
 firebase.initializeApp(firebaseConfig);
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    CartPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +36,7 @@ firebase.initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    CartPage,
   ],
   providers: [
     StatusBar,

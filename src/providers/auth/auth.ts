@@ -1,11 +1,13 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Events } from 'ionic-angular';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
 @Injectable()
 export class AuthProvider {
-  constructor() {}
+  userProfile: Array<any> = [];
+  constructor(public events: Events) { }
 
   loginUser(email: string, password: string): Promise<any> {
     return firebase.auth().signInWithEmailAndPassword(email, password);
@@ -27,7 +29,7 @@ export class AuthProvider {
       });
   }
 
-  resetPassword(email:string): Promise<void> {
+  resetPassword(email: string): Promise<void> {
     return firebase.auth().sendPasswordResetEmail(email);
   }
 
@@ -54,4 +56,23 @@ export class AuthProvider {
     })
     return promise;
   }
+  // getuserdetails() {
+  //   const userId: string = firebase.auth().currentUser.uid;
+  //   firebase.database().ref(`/userProfile/${userId}`).once('value', (snap) => {
+  //     this.userProfile = [];
+  //     if (snap.val()) {
+  //       var tempUser = snap.val();
+  //         let userData = {
+  //           firstName: tempUser.firstName,
+  //           lastName: tempUser.lastName,
+  //           telepon: tempUser.telepon,
+  //           address: tempUser.address
+  //         };
+
+  //         this.userProfile.push(userData);
+        
+  //     }
+  //     this.events.publish('userProfileLoad');
+  //   });
+  // }
 }

@@ -7,6 +7,7 @@ import {
 } from "ionic-angular";
 import { ProfileProvider } from "../../providers/profile/profile";
 import { AuthProvider } from "../../providers/auth/auth";
+import firebase from "firebase";
 
 @IonicPage()
 @Component({
@@ -14,15 +15,37 @@ import { AuthProvider } from "../../providers/auth/auth";
   templateUrl: "profile.html"
 })
 export class ProfilePage {
-  public userProfile: any;
+  public userProfile: any[];
   public birthDate: string;
+  public userDetails:any;
+  currentUser: firebase.User;
+  cuserUID: string;
+
 
   constructor(
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public authProvider: AuthProvider,
     public profileProvider: ProfileProvider
-  ) {}
+  ) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.currentUser = user;
+        this.cuserUID = user.uid;
+      }
+    });
+  } 
+
+  save_outage_index(){
+    console.log('click');
+  }
+
+  ionViewDidLoad() {
+    firebase.database().ref(`/userProfile/${this.cuserUID}`).on('value', userProfileSnapshot => {
+      this.userDetails = userProfileSnapshot.val();
+    });
+    // this.profileProvider.getData();
+  }
 
   updateName(): void {
     const alert: Alert = this.alertCtrl.create({
@@ -96,4 +119,50 @@ export class ProfilePage {
       this.navCtrl.setRoot("LoginPage");
     });
   }
+
+
+  updateTelepon(): void {
+    const alert: Alert = this.alertCtrl.create({
+      message: "Your Telephone Number",
+      inputs: [
+        {
+          name: "telepon",
+          placeholder: "+628xxxxxxx"
+        }
+      ],
+      buttons: [
+        { text: "Cancel" },
+        {
+          text: "Save",
+          handler: data => {
+            this.profileProvider.updateTelepon(data.telepon);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  updateAddress(): void {
+    const alert: Alert = this.alertCtrl.create({
+      message: "Your Address",
+      inputs: [
+        {
+          name: "address",
+          placeholder: "Jalan Gatot Subroto"
+        }
+      ],
+      buttons: [
+        { text: "Cancel" },
+        {
+          text: "Save",
+          handler: data => {
+            this.profileProvider.updateAddress(data.address);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
 }
