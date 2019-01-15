@@ -9,12 +9,14 @@ import { ListPage } from '../pages/list/list';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicStorageModule } from '@ionic/storage';
 import { AuthProvider } from '../providers/auth/auth';
 import { ProfileProvider } from '../providers/profile/profile';
 import { ProductsProvider } from '../providers/products/products';
 import { CategoryProvider } from '../providers/category/category';
 import { CartProvider } from '../providers/cart/cart';
 import { OrderProvider } from '../providers/order/order';
+
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './credentials';
@@ -29,6 +31,7 @@ firebase.initializeApp(firebaseConfig);
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
