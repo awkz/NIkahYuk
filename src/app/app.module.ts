@@ -3,7 +3,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -18,14 +17,11 @@ import { OrderProvider } from '../providers/order/order';
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './credentials';
-import { CartPage } from '../pages/cart/cart';
 firebase.initializeApp(firebaseConfig);
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage,
-    CartPage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -34,9 +30,7 @@ firebase.initializeApp(firebaseConfig);
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage,
-    CartPage
+    MyApp
   ],
   providers: [
     StatusBar,
