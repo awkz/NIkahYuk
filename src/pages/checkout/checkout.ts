@@ -19,7 +19,9 @@ export class CheckoutPage {
   cartItems: any[] = [];
   productAmt: number = 0;
   totalAmount: number = 0;
-  shippingFee: number = 20;
+  adminFee: number = 20000;
+  currentUser: firebase.User;
+  cuserUID: string;
   customerName: any;
   constructor(
     public navCtrl: NavController,
@@ -29,6 +31,12 @@ export class CheckoutPage {
     public authService: AuthProvider,
     private orderService: OrderProvider
   ) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.currentUser = user;
+        this.cuserUID = user.uid;
+      }
+    });
     this.loadCartItems();
   }
 
@@ -47,7 +55,7 @@ export class CheckoutPage {
             this.productAmt += parseInt(v.totalPrice);
           });
 
-          this.totalAmount = this.productAmt + this.shippingFee;
+          this.totalAmount = this.productAmt + this.adminFee;
         }
         loader.dismiss();
       })
@@ -81,8 +89,9 @@ export class CheckoutPage {
     if (user) {
       let orderObj = {
         customerId: user.uid,
-        name: this.customerName,
-        shipping: this.shippingFee,
+        customerName: this.customerName,
+
+        adminFee: this.adminFee,
         orderAmount: this.productAmt,
         amount: this.totalAmount,
         orders: this.cartItems
@@ -90,7 +99,8 @@ export class CheckoutPage {
 
       this.orderService.placeOrder(orderObj).then(() => {
         loader.dismiss();
-        this.navCtrl.setRoot('HomePage');
+        // this.navCtrl.setRoot('HomePage');
+        this.navCtrl.push("OrderStatusPage");
       });
     } else {
       loader.dismiss();

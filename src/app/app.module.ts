@@ -36,7 +36,7 @@ firebase.initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     HomePage,
-    CartPage,
+    CartPage
   ],
   providers: [
     StatusBar,
